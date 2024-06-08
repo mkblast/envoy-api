@@ -54,7 +54,7 @@ Login.post("/login",
                 { expiresIn: 60 * 60 * 24 * 30 }
             );
 
-            return res.status(200).json({ status: "Log in succeed", token });
+            return res.status(200).json({ status: "Log in succeeded", token });
 
         } catch (err) {
             next(err);
