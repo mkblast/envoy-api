@@ -3,10 +3,13 @@
     "version": "1.0.0",
     "main": "app.js",
     "scripts": {
-        "start": "ts-node --files src/app.ts src/types/index.d.ts",
+        "start": "npm run build && node dist/app.js",
         "build": "tsc",
         "dev": "nodemon",
         "lint": "eslint . --ext .ts"
+    },
+    "engines": {
+        "node": ">=16.17.1"
     },
     "author": "",
     "license": "ISC",
