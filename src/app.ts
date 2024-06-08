@@ -8,11 +8,6 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { SignupRouter, LoginRouter } from "./routes/auth";
 import Users from "./routes/api";
 
-interface ResError extends Error {
-    messages?: string;
-    status?: number;
-}
-
 dotenv.config();
 
 passport.use(

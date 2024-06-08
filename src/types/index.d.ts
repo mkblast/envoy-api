@@ -8,3 +8,8 @@ declare namespace Express {
         friends: number[];
     }
 }
+
+interface ResError extends Error {
+    messages?: string;
+    status?: number;
+}
