@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { SignupRouter, LoginRouter } from "./routes/auth";
-import Users from "./routes/api";
+import { UsersRouter, MeRouter } from "./routes/api";
 
 dotenv.config();
 
@@ -61,7 +61,7 @@ app.use("/api/*",
     },
 );
 
-app.use("/api", Users);
+app.use("/api", UsersRouter, MeRouter);
 
 app.use((err: ResError, req: Request, res: Response) => {
     res.locals.message = err.message;
