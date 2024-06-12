@@ -47,7 +47,7 @@ Me.put("/me",
             if (!user) {
                 return res.status(404).json({
                     status: "Post Failed",
-                    errors: [{ msg: "User not found." }]
+                    errors: [{ msg: "User: not found." }]
                 });
             }
 
@@ -65,4 +65,4 @@ Me.put("/me",
     }
 );
 
-export { Me };
+export {Me};

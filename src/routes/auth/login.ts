@@ -10,14 +10,14 @@ Login.post("/login",
     body("email")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("Email field not be empty.")
+        .withMessage("Email: field must not be empty.")
         .isEmail()
-        .withMessage("Must be a valid email."),
+        .withMessage("Email: must be a valid email."),
 
     body("password")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("password field not be empty."),
+        .withMessage("Password: field must not be empty."),
 
     async (req, res, next) => {
         try {
@@ -33,7 +33,7 @@ Login.post("/login",
             if (!user) {
                 return res.status(401).json({
                     status: "Log in failed",
-                    errors: [{ msg: "User not found" }]
+                    errors: [{ msg: "User: not found" }]
                 });
             }
 
@@ -42,7 +42,7 @@ Login.post("/login",
             if (!match) {
                 return res.status(401).json({
                     status: "Log in failed",
-                    errors: [{ msg: "Password incorrect" }]
+                    errors: [{ msg: "Password: incorrect" }]
                 });
             }
 

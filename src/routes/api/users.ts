@@ -22,7 +22,7 @@ const Users = Router();
 
 Users.get("/users", async (req, res, next) => {
     try {
-        const users = await User.find({}, "first_name last_name email").exec();
+        const users = await User.find({ _id: { $nin: [req.user?._id] } }, "first_name last_name").exec();
 
         return res.status(200).json({ status: "Query succeeded.", users });
     } catch (err) {
@@ -40,8 +40,8 @@ Users.get("/users/:userId/messages",
             const reciever = await User.findById(userId).exec();
             if (!reciever) {
                 return res.status(404).json({
-                    status: "Post Failed",
-                    errors: [{ msg: "User not found." }]
+                    status: "Query Failed",
+                    errors: [{ msg: "User: not found." }]
                 });
             }
 
@@ -50,7 +50,10 @@ Users.get("/users/:userId/messages",
                     { author: req.user?._id, reciever: userId },
                     { author: userId, reciever: req.user?._id }
                 ]
-            }).sort({ date: 1 }).exec();
+            }).populate([
+                { path: "author", select: "first_name last_name" },
+                { path: "reciever", select: "first_name last_name" },
+            ]).sort({ date: 1 }).exec();
 
             return res.status(200).json({ status: "Query succeeded.", messages });
 
@@ -84,7 +87,7 @@ Users.post("/users/:userId/messages",
             if (!reciever) {
                 return res.status(404).json({
                     status: "Post Failed",
-                    errors: [{ msg: "User not found." }]
+                    errors: [{ msg: "User: not found." }]
                 });
             }
 
@@ -94,7 +97,13 @@ Users.post("/users/:userId/messages",
                 reciever: userId,
             });
 
-            await message.save();
+            await Promise.all([
+                message.save(),
+                message.populate([
+                    { path: "author", select: "first_name last_name" },
+                    { path: "reciever", select: "first_name last_name" },
+                ])
+            ]);
 
             return res.status(200).json({ status: "Message sent.", message });
         } catch (err) {

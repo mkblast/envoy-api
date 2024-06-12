@@ -9,28 +9,28 @@ Signup.post("/signup",
     body("first_name")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("First name field not be empty.")
+        .withMessage("First name: field must not be empty.")
         .isAlphanumeric()
-        .withMessage("First name must be alphanumeric."),
+        .withMessage("First name: must be alphanumeric."),
 
     body("last_name")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("Last name field not be empty.")
+        .withMessage("Last name: field must not be empty.")
         .isAlphanumeric()
-        .withMessage("Last name must be alphanumeric."),
+        .withMessage("Last name: must be alphanumeric."),
 
     body("email")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("Email field not be empty.")
+        .withMessage("Email: field must not be empty.")
         .isEmail()
-        .withMessage("Must be a valid email."),
+        .withMessage("Email: Must be a valid email address."),
 
     body("password")
         .trim()
         .isLength({ min: 1 })
-        .withMessage("password field not be empty."),
+        .withMessage("Password: field must not be empty."),
 
     async (req, res, next) => {
         try {
@@ -45,7 +45,7 @@ Signup.post("/signup",
             if (isUserExist) {
                 return res.status(400).json({
                     status: "User sign up failed",
-                    errors: [{ msg: "User already exist" }]
+                    errors: [{ msg: "User: already exist" }]
                 });
             }
 
