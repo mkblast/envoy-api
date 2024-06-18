@@ -8,7 +8,7 @@ Me.get("/me", async (req, res, next) => {
     try {
         const { _id } = req.user!;
 
-        const me = await User.findById({ _id }).exec();
+        const me = await User.findById({ _id }, "first_name last_name email").exec();
 
         return res.status(200).json({ status: "Query succeeded.", me });
     } catch (err) {
@@ -31,6 +31,13 @@ Me.put("/me",
         .isAlphanumeric()
         .withMessage("Last name must be alphanumeric."),
 
+    body("email")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Email: field must not be empty.")
+        .isEmail()
+        .withMessage("Email: must be a valid email."),
+
     async (req, res, next) => {
         try {
             const errors = validationResult(req);
@@ -51,11 +58,11 @@ Me.put("/me",
                 });
             }
 
-            const { first_name, last_name } = req.body;
+            const { first_name, last_name, email } = req.body;
 
             const updated = await User.findOneAndUpdate(
                 { _id },
-                { first_name, last_name }
+                { first_name, last_name, email }
             ).exec();
 
             return res.status(200).json({ status: "Update succeeded", user: updated });
@@ -65,4 +72,4 @@ Me.put("/me",
     }
 );
 
-export {Me};
+export { Me };

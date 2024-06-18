@@ -53,7 +53,7 @@ Users.get("/users/:userId/messages",
             }).populate([
                 { path: "author", select: "first_name last_name" },
                 { path: "reciever", select: "first_name last_name" },
-            ]).sort({ date: 1 }).exec();
+            ]).sort({ date: -1 }).exec();
 
             return res.status(200).json({ status: "Query succeeded.", messages });
 
